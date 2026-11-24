@@ -1,0 +1,41 @@
+/*
+    ODS PROJECT
+    Batch Processing
+
+    Process:
+    NEW -> VALID -> PROCESSED
+*/
+
+-- Step 1: Validate NEW records
+
+UPDATE STG_CUSTOMER
+SET LOAD_STATUS = 'VALID',
+    ERROR_MESSAGE = NULL
+WHERE LOAD_STATUS = 'NEW'
+  AND FIRST_NAME IS NOT NULL
+  AND DOB IS NOT NULL
+  AND MOBILE_NO IS NOT NULL
+  AND REGEXP_LIKE(MOBILE_NO, '^[0-9]{10}$')
+  AND PAN_NO IS NOT NULL
+  AND REGEXP_LIKE(
+      UPPER(PAN_NO),
+      '^[A-Z]{5}[0-9]{4}[A-Z]$'
+  )
+  AND EMAIL IS NOT NULL
+  AND REGEXP_LIKE(
+      EMAIL,
+      '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+  )
+  AND DOB <= TRUNC(SYSDATE);
+
+COMMIT;
+
+
+-- Step 2: After successful MERGE,
+-- mark valid records as PROCESSED
+
+UPDATE STG_CUSTOMER
+SET LOAD_STATUS = 'PROCESSED'
+WHERE LOAD_STATUS = 'VALID';
+
+COMMIT;

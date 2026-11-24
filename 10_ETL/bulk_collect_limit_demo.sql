@@ -1,0 +1,39 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+
+    CURSOR C_CUSTOMER IS
+        SELECT *
+        FROM STG_CUSTOMER
+        WHERE LOAD_STATUS = 'NEW';
+
+    TYPE T_CUSTOMER IS TABLE OF STG_CUSTOMER%ROWTYPE;
+
+    V_CUSTOMERS T_CUSTOMER;
+
+BEGIN
+
+    OPEN C_CUSTOMER;
+
+    LOOP
+
+        FETCH C_CUSTOMER
+        BULK COLLECT
+        INTO V_CUSTOMERS
+        LIMIT 1000;
+
+        EXIT WHEN V_CUSTOMERS.COUNT = 0;
+
+        DBMS_OUTPUT.PUT_LINE
+        (
+            'Processing Batch : '
+            || V_CUSTOMERS.COUNT
+            || ' Records'
+        );
+
+    END LOOP;
+
+    CLOSE C_CUSTOMER;
+
+END;
+/

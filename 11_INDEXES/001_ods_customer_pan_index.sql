@@ -1,0 +1,16 @@
+CREATE INDEX IDX_ODS_CUSTOMER_PAN
+ON ODS_CUSTOMER(PAN_NO);
+
+
+
+
+-- PAN_NO is already indexed by an existing index
+-- due to the unique constraint on ODS_CUSTOMER.PAN_NO.
+
+SELECT
+    INDEX_NAME,
+    TABLE_NAME,
+    UNIQUENESS,
+    STATUS
+FROM USER_INDEXES
+WHERE TABLE_NAME = 'ODS_CUSTOMER';

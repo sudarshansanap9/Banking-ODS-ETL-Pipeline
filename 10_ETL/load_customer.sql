@@ -1,0 +1,36 @@
+-- load_customer.sql
+
+
+CREATE OR REPLACE PROCEDURE LOAD_STG_CUSTOMER
+IS
+BEGIN
+
+    INSERT INTO ODS_CUSTOMER
+    (
+        CUSTOMER_ID,
+        FIRST_NAME,
+        LAST_NAME,
+        DOB,
+        MOBILE_NO,
+        PAN_NO,
+        EMAIL
+    )
+    SELECT
+        SEQ_CUSTOMER.NEXTVAL,
+        FIRST_NAME,
+        LAST_NAME,
+        DOB,
+        MOBILE_NO,
+        PAN_NO,
+        EMAIL
+    FROM STG_CUSTOMER
+    WHERE LOAD_STATUS = 'NEW';
+
+    UPDATE STG_CUSTOMER
+    SET LOAD_STATUS = 'SUCCESS'
+    WHERE LOAD_STATUS = 'NEW';
+
+    COMMIT;
+
+END;
+/

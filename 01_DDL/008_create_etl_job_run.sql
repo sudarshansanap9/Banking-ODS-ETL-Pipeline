@@ -1,0 +1,20 @@
+CREATE TABLE ETL_JOB_RUN
+(
+    RUN_ID              NUMBER PRIMARY KEY,
+
+    JOB_ID              NUMBER,
+
+    START_TIME          DATE,
+
+    END_TIME            DATE,
+
+    TOTAL_RECORDS       NUMBER,
+
+    SUCCESS_RECORDS     NUMBER,
+
+    FAILED_RECORDS      NUMBER,
+
+    JOB_STATUS          VARCHAR2(20),
+
+    ERROR_MESSAGE       VARCHAR2(500)
+);

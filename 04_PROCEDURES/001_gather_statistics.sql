@@ -1,0 +1,12 @@
+BEGIN
+    DBMS_STATS.GATHER_TABLE_STATS(
+        OWNNAME => 'ODS_DEV',
+        TABNAME => 'ODS_CUSTOMER'
+    );
+
+    DBMS_STATS.GATHER_TABLE_STATS(
+        OWNNAME => 'ODS_DEV',
+        TABNAME => 'ODS_ACCOUNT'
+    );
+END;
+/

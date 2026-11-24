@@ -1,0 +1,9 @@
+-- Identify failed records from the latest ETL run
+
+SELECT
+    RUN_ID,
+    LOAD_ID,
+    RECORD_STATUS
+FROM ETL_RUN_DETAIL
+WHERE RECORD_STATUS = 'FAILED'
+ORDER BY RUN_ID, LOAD_ID;
